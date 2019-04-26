@@ -119,3 +119,7 @@ En resumen:
     <platform name="ios">
         <resource-file src="GoogleService-Info.plist" target="GoogleService-Info.plist" />
     </platform>
+
+
+    //linkl de video donde nos basamos para obtener las notificaciones que funcionan
+    https://www.youtube.com/watch?v=xxhcKe1C4-I
