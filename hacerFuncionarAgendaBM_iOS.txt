@@ -1,0 +1,121 @@
+****************************************************************************************
+*** Ubicación de archivos de configuración en plataformas del proyecto generadas *******
+****************************************************************************************
+En caso de la plataforma android el archivo google-services.json va en la ruta:
+platforms/android/app/google-services.json
+
+En el caso de la plataforma iOS el archivo GoogleService-Info.plist va en la ruta:
+platforms/ios/GoogleService-Info.plist
+
+****************************************************************************************
+*************************** comando para compilar con Xcode 10 *************************
+****************************************************************************************
+en Xcode 10 la compilacion se debe realizar de la siguiente manera:
+ionic cordova build ios -- --buildFlag="-UseModernBuildSystem=0"
+
+link: https://forum.ionicframework.com/t/how-to-build-ionic-cordova-with-xcode-10/142044
+
+
+
+****************************************************************************************
+*********************** Recompilar splash e icono del app ******************************
+****************************************************************************************
+
+ionic cordova resources
+
+EN CASO DE SER NECESARIO FORZAR A QUE RECARGUE LOS ICONOS DE LAS PLATAFORMAS CREADAS
+ionic cordova resources --force
+
+link: https://blog.ng-classroom.com/blog/tips/preparando-iconos-splashscreen/
+
+
+*******************************************************************************************************
+********************** Instalar los cocopods si hay problemas en la compilacion  **********************
+*******************************************************************************************************
+
+En la raiz del proyecto ionic ejecutar el comando
+sudo gem install pods
+
+Despues nos movemos a la ruta donde esta la plataforma de iOS
+cd platforms/ios/
+
+Instalar los pods del proyecto de iOS
+pod install
+
+Regresar al directorio raiz del proyecto ionic
+cd ../../
+
+Compilar nuevamente la plataforma ios
+ionic cordova build ios
+
+//En xcode 10
+ionic cordova build ios -- --buildFlag="-UseModernBuildSystem=0"
+
+
+Despues de hacer las instalaciones, el truco es abrir el archivo con extension workspace
+no el archivo del proyecto
+Compilamos y corremos el proyecto y ya debería correr sin ningún problema
+
+
+link: https://forum.ionicframework.com/t/push-plugin-mac-cocoa-pods/85124/3
+
+
+
+*******************************************************************************************************
+*************************** Solucionar problemas con el plugin backgroundmod **************************
+*******************************************************************************************************
+En el proyecto hay que quitar el guien bajo dentro del archivo APPBackgroundMode.m al 
+key name "_requiresUserActionForMediaPlayback" quedando de la siguiente forma 
+"requiresUserActionForMediaPlayback"
+
+link: https://github.com/katzer/cordova-plugin-background-mode/issues/264
+
+
+*******************************************************************************************************
+******************* Cambiar configuracion dentro de xcode para que compile correctamente **************
+*******************************************************************************************************
+
+I was struggling with this today, it was super frustrating. 
+For now, just go into "File" > "Project Settings..." (or in some cases "Workspace Settings...") and then 
+select "Legacy Build System" from the "Build System" dropdown.
+
+
+link: https://stackoverflow.com/questions/52424462/xcode-10-a-valid-provisioning-profile-for-this-executable-was-not-found
+
+
+*******************************************************************************************************
+*************************** Hacer funcionar notificaciones push en AgendaBM ***************************
+*******************************************************************************************************
+
+Es necesario realizar los siguientes pasos para el correcto funcionamiento de las push notifications
+1) Configurar Apple Push notifications (APNs), siga las instrucciones que aparecen en el sigueinte link 
+https://firebase.google.com/docs/cloud-messaging/ios/certs
+
+En resumen:
+    Se crea una authentication key  y se descarga el archivo generado (posteriormente se utilizara en la configuracion de la pagina de firebase)
+    Crear un ID del app con el ID bundle del proyecto
+    Crear un Provisioning Profile (Paso fundamental para que funcionen las notificaciones push)
+
+
+
+2) Agregar firebase al App (Add Firebase to your iOS project)
+    https://firebase.google.com/docs/cloud-messaging/ios/client#method_swizzling_in_firebase_messaging
+    
+
+En resumen:
+    Verificar que se cumple con los reuisitos previos
+    Crear proyecto de firebase
+    Descargar el archivo de configuracion GoogleService-Info.plist 
+    Mover el archivo del proyecto a la raiz de la plataforma de iOS
+    Agregar el SDK (Pendiente, verificaremossi es necesario la instalacion de los pods extra)
+    Subir el key del APNs creado a la consola de firebase
+    
+3) Verificar si hay pasos extra que falten en del siguiente post
+    https://medium.freecodecamp.org/how-to-get-push-notifications-working-with-ionic-4-and-firebase-ad87cc92394e
+
+4) Agregar la linea siguiente el el archivo de configuracion del proyecto de ionic
+    NOTA IMPORTANTE: Para que no ocasione errores al compilar, la linea debe ser agregada una vez creada la plataforma de iOS del proyecto de ionic
+   
+    <platform name="ios">
+        <resource-file src="GoogleService-Info.plist" target="GoogleService-Info.plist" />
+    </platform>

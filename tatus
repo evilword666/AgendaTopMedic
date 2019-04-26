@@ -1,0 +1,227 @@
+[33mcommit aab7e5eb7a98ee02f5883bac6e7308520fa47547[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Luis Loopez <desarrollo@Anas-MacBook.local>
+Date:   Mon Mar 18 10:53:43 2019 -0600
+
+    Agregada excepcion de chequeo de variable local solamente cuando sea un dispositivo android pues en iOS no tiene sentido
+
+[33mcommit fa249f26093d46e4048a600703581147025e9b8a[m
+Author: Luis Loopez <desarrollo@Anas-MacBook.local>
+Date:   Mon Mar 18 10:12:48 2019 -0600
+
+    Corregido el formato de fecha para dispositivos iOS
+
+[33mcommit 18e114e343faed3adb3168a8ff8e640ad359baef[m
+Author: Javier Avelino <evilword.com@gmail.com>
+Date:   Fri Mar 15 13:47:56 2019 -0600
+
+    Agregado boton para actualizacion de citas de la agenda
+
+[33mcommit a848d0ec36f8b02cb50d2a478c834f75ca228d94[m
+Author: Javier Avelino <evilword.com@gmail.com>
+Date:   Thu Mar 14 16:41:53 2019 -0600
+
+    agregado boton con cambio de color cuando se muestra u oculta la contraseña
+
+[33mcommit 33b8650e356a3b2277c491079f22ab4d11fb923c[m
+Author: Javier Avelino <evilword.com@gmail.com>
+Date:   Thu Mar 14 16:21:24 2019 -0600
+
+    Agregado boton para mostrar y ocultar contraseña
+
+[33mcommit c42cd5456e1191135aea4f99969e156a977b8f2b[m
+Author: Javier Avelino <evilword.com@gmail.com>
+Date:   Wed Mar 13 17:10:04 2019 -0600
+
+    cambios minimos
+
+[33mcommit 4afaa6573264b844e207d406150b873017a851fd[m
+Author: Javier Avelino <evilword.com@gmail.com>
+Date:   Wed Mar 13 14:18:00 2019 -0600
+
+    identificar la plataforma para realizar la conversion de fecha pertinente
+
+[33mcommit 99a0529c57c769ccc9852cbdbe0d70d6cccb4b37[m
+Author: Javier Avelino <evilword.com@gmail.com>
+Date:   Wed Mar 13 13:55:14 2019 -0600
+
+    cambios en las variables de loguin para guardar las credenciales cuando sea exitoso
+
+[33mcommit 0773215065fbb4eeee711272803e0da86a2c3615[m
+Author: Javier Avelino <evilword.com@gmail.com>
+Date:   Wed Feb 20 13:34:19 2019 -0600
+
+    Cambios menores
+
+[33mcommit e58e882f5663298c79c73932912d81294ecc5fef[m
+Author: Javier Avelino <evilword.com@gmail.com>
+Date:   Tue Feb 19 16:53:02 2019 -0600
+
+    Cambios en los metodos de envio y actualizacion de las citas en la BD local
+
+[33mcommit 2cc509fb97674730cf5d324cb0193925afed348f[m
+Author: Javier Avelino <evilword.com@gmail.com>
+Date:   Mon Feb 11 17:06:32 2019 -0600
+
+    Envio de token a insertar en BD del servidor y asi poder administrar el envio de notificaciones push
+
+[33mcommit 6805f761a6c03504e1689ebe30d665c9482d4f10[m
+Author: Javier Avelino <evilword.com@gmail.com>
+Date:   Fri Feb 8 12:40:10 2019 -0600
+
+    Archivos modificados y plugins instalados necesarios para las notificaciones push
+
+[33mcommit 531a4094775f4142973cc6347b0f31fa6894d772[m
+Author: Javier Avelino <evilword.com@gmail.com>
+Date:   Thu Jan 31 14:40:43 2019 -0600
+
+    cambios a diferentes archivos para agregar funcionalidad de notificaciones
+
+[33mcommit 8ec76b028f4d462be2e7effb57d4ab5d006a46b0[m
+Author: Javier Avelino <evilword.com@gmail.com>
+Date:   Thu Jan 31 14:37:52 2019 -0600
+
+    Agregado plugin para notificaciones
+
+[33mcommit f3e9d4772498cc6aa8e137517db6de573e136dde[m
+Author: Javier Avelino <evilword.com@gmail.com>
+Date:   Tue Jan 29 16:20:09 2019 -0600
+
+    Eliminada linea que hacia sonar dos veces la alarma de cuando hay un cambio
+
+[33mcommit 4c650a2798fb3983755ea9ead23323200e9935b9[m
+Author: Javier Avelino <evilword.com@gmail.com>
+Date:   Tue Jan 29 16:04:54 2019 -0600
+
+    Agregados modulos de plugins nativeaudio y backgroundmode
+
+[33mcommit 4ba9db8441942fd5c77bf4f7fd65484907c10f6f[m
+Author: Javier Avelino <evilword.com@gmail.com>
+Date:   Tue Jan 29 16:00:50 2019 -0600
+
+    agregados plugins backgroundmode y nativeaudio
+
+[33mcommit 75647851e63709840111df6c59076dedfc177338[m
+Author: Javier Avelino <evilword.com@gmail.com>
+Date:   Thu Jan 24 16:20:33 2019 -0600
+
+    cambios automaticos de plugins
+
+[33mcommit 157992373dfea43e289be8bbba6ca42671ce3781[m
+Author: Javier Avelino <evilword.com@gmail.com>
+Date:   Thu Jan 24 16:19:51 2019 -0600
+
+    agregador proveedor de servicio para realizar las consultas de la BD local
+
+[33mcommit a4e2b8e20c4dbf58cf05adeaf01f544ae9e810c7[m
+Author: Javier Avelino <evilword.com@gmail.com>
+Date:   Thu Jan 24 16:18:07 2019 -0600
+
+    Agregadas variables de usuario y contraseña automaticas para evitar llenado en pruebas
+
+[33mcommit 637e76701b628810829b90dc06cc32f0ed649f93[m
+Author: Javier Avelino <evilword.com@gmail.com>
+Date:   Thu Jan 24 16:14:50 2019 -0600
+
+    Agregadas diferentes funciones y correcciones para poder descargar y mostrar los datos correctamente de la BD remota
+
+[33mcommit 0efec9c73051afa41cf5fd73bf6344e4d0793a21[m
+Author: Javier Avelino <evilword.com@gmail.com>
+Date:   Thu Jan 24 16:12:21 2019 -0600
+
+    Agregado boton para probar funciones
+
+[33mcommit c50c5ba8cfefa89411aef9e9af85948d3227269e[m
+Author: Javier Avelino <evilword.com@gmail.com>
+Date:   Thu Jan 24 16:09:52 2019 -0600
+
+    Agregaso modulo de base de datos
+
+[33mcommit 284c9b99b6acb29f9c5dc8c72f6d8500c701bf7a[m
+Author: Javier Avelino <evilword.com@gmail.com>
+Date:   Thu Jan 24 16:06:56 2019 -0600
+
+    Agregado plugin de base de datos sqlite
+
+[33mcommit 5a36da225812aa788d2bc3be16895d02cc60f019[m
+Author: Javier Avelino <evilword.com@gmail.com>
+Date:   Mon Jan 21 11:12:19 2019 -0600
+
+    cambios de imagen splash e icono de app
+
+[33mcommit b18427785b184fcc6a0e82e5919a0aebafbcb1b6[m
+Author: Javier Avelino <evilword.com@gmail.com>
+Date:   Mon Jan 21 11:10:57 2019 -0600
+
+    agregada validacion de campos y loading bar
+
+[33mcommit aba0a5c462114b912388767c7c60268c320355f7[m
+Author: Javier Avelino <evilword.com@gmail.com>
+Date:   Mon Jan 21 11:07:23 2019 -0600
+
+    cambios en interface
+
+[33mcommit d1cacf5aed7ef76ed06e9bcd0c42d5b4cbf31286[m
+Author: Javier Avelino <evilword.com@gmail.com>
+Date:   Fri Jan 18 15:07:19 2019 -0600
+
+    cambios menores
+
+[33mcommit 610d21ba49346d7cafd8c22e87b3295445872a96[m
+Author: Javier Avelino <evilword.com@gmail.com>
+Date:   Fri Jan 18 15:04:08 2019 -0600
+
+    Agregada libreria para hacer funcionar el calendario
+
+[33mcommit a42c875e27a96770505c7ecb50aa61c7aa6511c8[m
+Author: Javier Avelino <evilword.com@gmail.com>
+Date:   Fri Jan 18 14:54:04 2019 -0600
+
+    Agregados metodos y variables para poder recibir y manipular los datos recibidos desde el servidor
+
+[33mcommit e78ddecc0a9c774163615b6dd7ac5629e3e2a1b6[m
+Author: Javier Avelino <evilword.com@gmail.com>
+Date:   Fri Jan 18 14:49:01 2019 -0600
+
+    Agregada pagina de login a los modulos del app de ionic
+
+[33mcommit 3b0d0196bb8efbc01bb80e97aecd2cc7f9f1319d[m
+Author: Javier Avelino <evilword.com@gmail.com>
+Date:   Fri Jan 18 14:43:16 2019 -0600
+
+    cambiada la pagina en la que iniciará el app
+
+[33mcommit c21867e351ef8abbe9ead5925e8032077a1fe49f[m
+Author: Javier Avelino <evilword.com@gmail.com>
+Date:   Fri Jan 18 14:39:27 2019 -0600
+
+    Se agregron estilos de color y posicion para el app en general
+
+[33mcommit 55d336d104f0fa001a1b51c1cf04332aa04eb93e[m
+Author: Javier Avelino <evilword.com@gmail.com>
+Date:   Fri Jan 18 14:38:00 2019 -0600
+
+    Cambiado el nombre del app
+
+[33mcommit da53a96f95a1a6f2542c350f062d1cf300e4fc8f[m
+Author: Javier Avelino <evilword.com@gmail.com>
+Date:   Fri Jan 18 14:28:12 2019 -0600
+
+    Agregada interface grafica y codigo para enviar credenciales de inicio de sesion al servidor
+
+[33mcommit e8639b8ad80237c1cf4e66b28fbcf6be316e0c64[m
+Author: Javier Avelino <evilword.com@gmail.com>
+Date:   Fri Dec 21 19:36:18 2018 -0600
+
+    Modificacion a false en la variable allDay para que nos muestre las horas de inicio y fin de cada evento
+
+[33mcommit 4492d192eb5b99348af1c976e6ca4937e19deee4[m
+Author: Javier Avelino <evilword.com@gmail.com>
+Date:   Fri Dec 21 17:58:38 2018 -0600
+
+    Funcion para agregar eventos individualmente
+
+[33mcommit 05c0d08dea75b562732f95f0e9eb984acb94b2df[m
+Author: Javier Avelino <evilword.com@gmail.com>
+Date:   Mon Dec 17 12:58:49 2018 -0600
+
+    App para sincronizar calendarios de medicos
