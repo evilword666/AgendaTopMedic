@@ -53,7 +53,7 @@ export class HomePage {
     });
   
     this.backgroundMode.setDefaults({
-        title: "Agenda BM",
+        title: "Agenda TM",
         text: this.bodyNotification,
         icon: 'icon2.png', // this will look for icon.png in platforms/android/res/drawable|mipmap
         color: '65cab6', // hex format like 'F14F4D'

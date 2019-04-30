@@ -148,7 +148,7 @@ var LoginPage = /** @class */ (function () {
     };
     LoginPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-            selector: 'page-login',template:/*ion-inline-start:"C:\Users\tauro\Desktop\APP_AGENDA_TOPMEDICOS\Agenda_TOP_MEDICOS\src\pages\login\login.html"*/'<ion-toolbar color="primary">\n</ion-toolbar>\n<ion-content text-center>\n\n  <img src="img/doctor_logo.png" width="50%" class="margin" />\n  <ion-list>    \n      <ion-item>\n        <ion-label floating>Usuario</ion-label>\n        <ion-input type="text" [(ngModel)]="user"></ion-input>\n      </ion-item>\n    \n      <ion-item>        \n        <ion-label floating>Contraseña</ion-label>\n        <ion-input [type]="passwordType" [(ngModel)]="pass"></ion-input>\n        <!--<ion-icon name="eye" color="primary" item-end (click)="mostrarPassword()"></ion-icon>-->\n\n        <button ion-button clear item-end large [color]="passwordShowed === true ? \'primary\' : \'danger\'" (click)="mostrarPassword()">\n          <ion-icon name="eye"></ion-icon>\n        </button>        \n\n      </ion-item>          \n    </ion-list>\n    \n<!--\n    <button ion-button outline item-end icon-left color="gris" (click)="registrarse()">Registrarse <br>\n    <ion-icon name="md-create"></ion-icon>\n  </button>\n-->\n\n    <button ion-button outline item-end icon-left  color="Primary" (click)="login()">Ingresar <br><!-- loguear -->\n        <ion-icon name="person"></ion-icon>\n    </button>\n<!--\n    <button ion-button outline item-end icon-left  color="Primary" (click)="mostrarPassword()">Mostrar contraseña\n      <ion-icon name="eye"></ion-icon>\n  </button>\n-->        \n\n</ion-content>\n\n<ion-footer>\n  \n  <ion-toolbar color="primary">\n  </ion-toolbar>\n</ion-footer>\n\n'/*ion-inline-end:"C:\Users\tauro\Desktop\APP_AGENDA_TOPMEDICOS\Agenda_TOP_MEDICOS\src\pages\login\login.html"*/,
+            selector: 'page-login',template:/*ion-inline-start:"C:\Users\tauro\Desktop\APP_AGENDA_TOPMEDICOS\Agenda_TOP_MEDICOS\src\pages\login\login.html"*/'<ion-toolbar color="primary">\n</ion-toolbar>\n<ion-content text-center>\n\n  <img src="img/doctor_logo.png" width="50%" class="margin" />\n  <ion-list>    \n      <ion-item>\n        <ion-label floating>Usuario</ion-label>\n        <ion-input type="text" [(ngModel)]="user"></ion-input>\n      </ion-item>\n    \n      <ion-item>        \n        <ion-label floating>Contraseña</ion-label>\n        <ion-input [type]="passwordType" [(ngModel)]="pass"></ion-input>\n        <!--<ion-icon name="eye" color="primary" item-end (click)="mostrarPassword()"></ion-icon>-->\n\n        <button ion-button clear item-end large [color]="passwordShowed === true ? \'primary\' : \'danger\'" (click)="mostrarPassword()">\n          <ion-icon name="eye"></ion-icon>\n        </button>        \n      </ion-item>        \n      \n        <p></p>\n\n    </ion-list>\n    \n<!--\n    <button ion-button outline item-end icon-left color="gris" (click)="registrarse()">Registrarse <br>\n    <ion-icon name="md-create"></ion-icon>\n  </button>\n-->\n\n    <button ion-button outline item-end icon-left  color="Primary" (click)="login()">Ingresar <br><!-- loguear -->\n        <ion-icon name="person"></ion-icon>\n    </button>\n<!--\n    <button ion-button outline item-end icon-left  color="Primary" (click)="mostrarPassword()">Mostrar contraseña\n      <ion-icon name="eye"></ion-icon>\n  </button>\n-->        \n\n</ion-content>\n\n<ion-footer>\n  \n  <ion-toolbar color="primary">\n  </ion-toolbar>\n</ion-footer>\n\n'/*ion-inline-end:"C:\Users\tauro\Desktop\APP_AGENDA_TOPMEDICOS\Agenda_TOP_MEDICOS\src\pages\login\login.html"*/,
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_4__ionic_native_local_notifications__["a" /* LocalNotifications */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* LoadingController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavParams */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */], __WEBPACK_IMPORTED_MODULE_2__angular_http__["a" /* Http */]])
     ], LoginPage);
@@ -281,7 +281,7 @@ var HomePage = /** @class */ (function () {
             console.log("error: " + error);
         });
         this.backgroundMode.setDefaults({
-            title: "Agenda BM",
+            title: "Agenda TM",
             text: this.bodyNotification,
             icon: 'icon2.png',
             color: '65cab6',
@@ -1132,7 +1132,8 @@ var MyApp = /** @class */ (function () {
         var pushObject = this.push.init(options);
         //pushObject.on('notification').subscribe((notification: any) => console.log('Received a notification', notification));                           
         pushObject.on('notification').subscribe(function (notification) {
-            //alert('Notificacion recibida: '+JSON.stringify(notification))
+            console.log('Notificacion recibida: ' + JSON.stringify(notification));
+            alert('Notificacion recibida: ' + JSON.stringify(notification));
             //alert('Titulo: '+JSON.stringify(notification.title+'\nMensaje: '+notification.message))
             localStorage.setItem("TitleNotification", notification.title);
             localStorage.setItem("MessageNotification", notification.message);

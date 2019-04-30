@@ -82,7 +82,8 @@ export class MyApp {
 
     pushObject.on('notification').subscribe((notification: any) => {
       
-      //alert('Notificacion recibida: '+JSON.stringify(notification))
+      console.log('Notificacion recibida: '+JSON.stringify(notification))
+      alert('Notificacion recibida: '+JSON.stringify(notification))
       //alert('Titulo: '+JSON.stringify(notification.title+'\nMensaje: '+notification.message))
       localStorage.setItem("TitleNotification",notification.title)
       localStorage.setItem("MessageNotification",notification.message)            
