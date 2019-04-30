@@ -1,0 +1,36 @@
+<!--
+  Generated template for the ModalPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<!--
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Detalles</ion-title>
+    <ion-buttons end>
+      <button ion-button (click)="closeModal()">Close</button>
+    </ion-buttons>    
+  </ion-navbar>
+</ion-header>
+-->
+
+<ion-content class="main-view">
+
+  <div class="overlay" (click)="closeModal()"></div>
+  <div class="modal_content">
+    <h2>Detalles de cita</h2>
+    <h5>Inicio de videoasistencia: </h5>{{data.hora_inicio}}
+    <h5>Fin de Videoasistencia: </h5>{{data.hora_fin}}
+    <h5>Detalles: </h5>{{data.detalles_cita}}
+
+      <button ion-button outline item-end icon-right color="Primary" (click)="login()">Videoasistencia<br><!-- loguear -->
+        <ion-icon name="ios-videocam"></ion-icon>
+      </button>
+  </div>
+  
+
+
+
+</ion-content>

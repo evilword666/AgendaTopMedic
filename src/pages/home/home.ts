@@ -1,5 +1,5 @@
 import { Component, ɵConsole } from '@angular/core';
-import { NavController, AlertController } from 'ionic-angular';
+import { NavController, AlertController, ModalController,ModalOptions } from 'ionic-angular';
 import { Http } from '@angular/http'; //https://stackoverflow.com/questions/43609853/angular-4-and-ionic-3-no-provider-for-http
 import {DatabaseProvider } from '../../providers/database/database';
 import { BackgroundMode } from '@ionic-native/background-mode';
@@ -33,7 +33,7 @@ export class HomePage {
     isIosDevice:boolean=false;
     
     
-  constructor(private uniqueDeviceID: UniqueDeviceID, public loadingCtrl: LoadingController, private toast: Toast, public plt: Platform, private localNotifications: LocalNotifications, public nativeAudio: NativeAudio , private backgroundMode: BackgroundMode,public navCtrl: NavController, private http:Http,private alertCtrl: AlertController, private database: DatabaseProvider) {
+  constructor(private modal:ModalController, private uniqueDeviceID: UniqueDeviceID, public loadingCtrl: LoadingController, private toast: Toast, public plt: Platform, private localNotifications: LocalNotifications, public nativeAudio: NativeAudio , private backgroundMode: BackgroundMode,public navCtrl: NavController, private http:Http,private alertCtrl: AlertController, private database: DatabaseProvider) {
 
     this.data.username = '';
     this.data.response = '';    
@@ -86,6 +86,17 @@ export class HomePage {
 /**************************************************************************************************************/
 /**************************************************************************************************************/
 /**************************************************************************************************************/          
+
+verDetallesEventoModal(evento){
+  
+  const myModalOptions:ModalOptions={
+    enableBackdropDismiss:true
+  }
+
+  const myModal = this.modal.create('ModalPage',{data:evento},myModalOptions);
+  myModal.present();
+}
+
 actualizarAgenda(){
 
 /*
@@ -521,7 +532,9 @@ clearTable(){
   onEventSelected(event) {
       console.log('Event selected:' + event.startTime + '-' + event.endTime + ',' + event.title);
       //alert(event.title)
-      this.alertDetallesEvento( event.title )
+      //this.alertDetallesEvento( event.title )
+      const miCita = {titulo:event.title,inicio:event.startTime,fin:event.endTime}
+      this.verDetallesEventoModal(miCita)
   }
   changeMode(mode) {
       this.calendar.mode = mode;
