@@ -87,13 +87,49 @@ export class HomePage {
 /**************************************************************************************************************/
 /**************************************************************************************************************/          
 
-verDetallesEventoModal(evento){
-  
+addZero=(i)=>{
+  if (i < 10) {
+    i = "0" + i;
+  }
+  return i;
+}
+
+obtenerFecha(formatoDate){
+
+  let dd = formatoDate.getDate();
+
+  let  mm = formatoDate.getMonth()+1; 
+  let yyyy = formatoDate.getFullYear();
+
+  if(dd<10) 
+  {
+    dd='0'+dd;
+  } 
+
+  if(mm<10) 
+  {
+    mm='0'+mm;
+  } 
+
+
+  let fecha = yyyy+'-'+mm+'-'+dd;
+  return fecha;
+}
+
+obtenerHora(formatoDate){
+  let h = this.addZero(formatoDate.getHours());
+  var m = this.addZero(formatoDate.getMinutes());
+  var s = this.addZero(formatoDate.getSeconds());
+  return h+":"+m+":"+s;
+}
+
+verDetallesEventoModal(evento){  
+
   const myModalOptions:ModalOptions={
     enableBackdropDismiss:true
   }
 
-  const myModal = this.modal.create('ModalPage',{data:evento},myModalOptions);
+  const myModal = this.modal.create('ModalPage',{data:evento},myModalOptions);  
   myModal.present();
 }
 
@@ -384,8 +420,8 @@ checarCambiosNotificacionesRecibidas(){
 /**************************************************************************************************************/
 /**************************************************************************************************************/
 /**************************************************************************************************************/  
-  almacenarHorariosEnLocalBD(fecha_consulta: string, hora:string, horb:string, descripcion: string, link_token: string, numCitas:number){
-    this.database.almacenarCitasEnBD(fecha_consulta, hora,horb,descripcion, link_token, numCitas).then((data) =>{                
+  almacenarHorariosEnLocalBD(fecha_consulta: string, hora:string, horb:string, descripcion: string, link_token: string,tipo_servicio:string, numCitas:number){
+    this.database.almacenarCitasEnBD(fecha_consulta, hora,horb,descripcion, link_token,tipo_servicio, numCitas).then((data) =>{                
         //console.log(JSON.stringify("Numero de datos insertados: "+data))
         
         if(JSON.stringify(data) == numCitas+""){
@@ -445,6 +481,61 @@ getCitas(){
     })
     this.loading.dismiss(); 
   }
+
+/**************************************************************************************************************/
+/*************************** Obtener detalles de la cita seleccionana en el calendario ************************/
+/**************************************************************************************************************/
+
+getDetallesCitaSeleccionada(fechaCitaSeleccionada,horaInicioCitaSeleccionada,horaFinCitaSeleccionada){  
+  
+  //Usamos la funcion creada en el proveedor database.ts para obtener los datos de las citas
+  this.database.obtenerCamposCitaSeleccionada(fechaCitaSeleccionada,horaInicioCitaSeleccionada,horaFinCitaSeleccionada).then((data: any) => {
+
+    //alert(typeof(data))
+    //let datos = JSON.stringify(data);
+    //alert("getDetallesCitaSeleccionada(): "+datos)
+    
+
+          for (let i = 0; i < data.length; i++) {
+              const element = data[i];            
+              
+              let fecha_consulta_g = JSON.stringify(data[i]['fecha_consulta'])
+              let hora_g = JSON.stringify(data[i]['hora'])
+              let horb_g = JSON.stringify(data[i]['horb'])
+              let descripcion_g = JSON.stringify(data[i]['descripcion'])
+              let link_token_g = JSON.stringify(data[i]['link_token'])
+              let tipo_servicio_g = JSON.stringify(data[i]['tipo_servicio'])
+              
+              //alert(fecha_consulta_g+" "+hora_g+" "+horb_g+" "+descripcion_g+" "+link_token_g)
+
+              let fecha_consulta_SC = fecha_consulta_g.replace(/"/g, ''); 
+              var hora_SC = hora_g.replace(/"/g, ''); 
+              var horb_SC = horb_g.replace(/"/g, ''); 
+              var descripcion_SC = descripcion_g.replace(/"/g, ''); 
+              var link_token_SC = link_token_g.replace(/"/g, '');               
+              var tipo_servicio_SC = tipo_servicio_g.replace(/"/g, '');   
+
+              let objectNotification = {
+                "fecha_consulta": fecha_consulta_SC, 
+                "hora": hora_SC, 
+                "horb": horb_SC, 
+                "descripcion": descripcion_SC, 
+                "link_token": link_token_SC, 
+                "tipo_servicio": tipo_servicio_SC
+              };
+
+              //alert(typeof(objectNotification))
+              this.verDetallesEventoModal(objectNotification)
+          }    
+          
+         
+
+  }, (error) => {
+    console.log(error);
+    //alert("error: "+error)
+  })
+  
+}
 /**************************************************************************************************************/
 /**************************************************************************************************************/
 /**************************************************************************************************************/          
@@ -467,12 +558,15 @@ getCitas(){
 
                 var nombre = JSON.stringify(element['nombre_paciente'])
                 var aPaterno = JSON.stringify(element['paterno'])
+                var tipo_servicio = JSON.stringify(element['tipo_servicio'])
+                
                 
 
                 var fecha_consulta_SC = fecha_consulta.replace(/"/g, ''); 
                 var hora_SC = hora.replace(/"/g, ''); 
                 var horb_SC = horb.replace(/"/g, ''); 
                 var descripcion_SC = descripcion.replace(/"/g, '');
+                var tipo_servicio_SC = tipo_servicio.replace(/"/g, '');
                 
                 var nombre_SC = nombre.replace(/"/g, '');
                 var aPaterno_SC = aPaterno.replace(/"/g, '');
@@ -484,7 +578,7 @@ getCitas(){
                 
                 //this.eventSource es el evento en el html que se ira refrescando 
                 //this.eventSource = this.addSchedules(fecha_consulta_SC, hora_SC, horb_SC, descripcion_SC);
-                this.almacenarHorariosEnLocalBD(fecha_consulta_SC, hora_SC, horb_SC, descripcionCompuesta,link_token_SC, nFilas);
+                this.almacenarHorariosEnLocalBD(fecha_consulta_SC, hora_SC, horb_SC, descripcionCompuesta,link_token_SC,tipo_servicio_SC, nFilas);
             }
             window.localStorage.setItem("numFilasDBremota",window.localStorage.getItem("numFilasDBActual"))
         }else{
@@ -534,7 +628,21 @@ clearTable(){
       //alert(event.title)
       //this.alertDetallesEvento( event.title )
       const miCita = {titulo:event.title,inicio:event.startTime,fin:event.endTime}
-      this.verDetallesEventoModal(miCita)
+
+      //Aqui separaremos los valores que necesitaremos para hacer la consulta en la BD local
+      let fechaCitaSeleccionada = this.obtenerFecha(event.startTime);
+      let horaInicioCitaSeleccionada = this.obtenerHora(event.startTime);
+      let horaFinCitaSeleccionada = this.obtenerHora(event.endTime);
+      //alert (fechaCitaSeleccionada+" "+horaInicioCitaSeleccionada+" "+horaFinCitaSeleccionada)
+
+      //Aqui ira la consulta a la BD local por fecha y hora 
+      let camposDBcitaSeleccionada = this.getDetallesCitaSeleccionada(fechaCitaSeleccionada,horaInicioCitaSeleccionada,horaFinCitaSeleccionada)
+
+      //alert("camposDBcitaSeleccionada: "+JSON.stringify(camposDBcitaSeleccionada))
+      ///Aqui enviaremos los parametros consultados al modal para poder visualizarlos
+//      this.verDetallesEventoModal(miCita)
+//        this.verDetallesEventoModal(camposDBcitaSeleccionada)
+           
   }
   changeMode(mode) {
       this.calendar.mode = mode;

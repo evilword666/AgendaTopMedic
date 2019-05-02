@@ -25,7 +25,7 @@
     <h5>Fin de Videoasistencia: </h5>{{data.hora_fin}}
     <h5>Detalles: </h5>{{data.detalles_cita}}
 
-      <button ion-button outline item-end icon-right color="Primary" (click)="login()">Videoasistencia<br><!-- loguear -->
+      <button ion-button outline item-end icon-right color="Primary" [hidden]="data.tipo_servicio === 'Consulta Presencial' ? true : false" (click)="iniciarVideoconferencia()">Videoasistencia<br>
         <ion-icon name="ios-videocam"></ion-icon>
       </button>
   </div>

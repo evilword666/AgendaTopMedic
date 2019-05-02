@@ -15,6 +15,7 @@
   <calendar [eventSource]="eventSource"
             [calendarMode]="calendar.mode"
             [currentDate]="calendar.currentDate"
+            [locale]="calendar.locale"
             
             (onCurrentDateChanged)="onCurrentDateChanged($event)"
             (onEventSelected)="onEventSelected($event)"
@@ -51,7 +52,7 @@
 
   <!--
   <ion-fab left bottom #fab >
-    <button ion-fab (click)="verDetallesModal()">
+    <button ion-fab (click)="verDetallesEventoModal()">
         <ion-icon name="person" large></ion-icon>
      </button>
   </ion-fab>

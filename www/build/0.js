@@ -71,23 +71,30 @@ var ModalPage = /** @class */ (function () {
         this.data.hora_inicio = '';
         this.data.hora_fin = '';
         this.data.detalles_cita = '';
+        this.data.tipo_servicio = '';
+        this.data.link_token = '';
     }
     ModalPage.prototype.ionViewWillLoad = function () {
     };
     ModalPage.prototype.ionViewDidLoad = function () {
         var data = this.navParams.get('data');
-        //console.log(data)
-        //alert(JSON.stringify(data))
-        this.data.hora_inicio = data.inicio;
-        this.data.hora_fin = data.fin;
-        this.data.detalles_cita = data.titulo;
+        //alert("En el modal: "+JSON.stringify(data))
+        //console.log("En el modal: "+JSON.stringify(data))
+        this.data.hora_inicio = data.hora;
+        this.data.hora_fin = data.horb;
+        this.data.detalles_cita = data.descripcion;
+        this.data.tipo_servicio = data.tipo_servicio;
+        this.data.link_token = "https://topmeddr.com:3005/" + data.link_token + "/d";
+    };
+    ModalPage.prototype.iniciarVideoconferencia = function () {
+        var ref = window.open(this.data.link_token, '_blank', 'location=no');
     };
     ModalPage.prototype.closeModal = function () {
         this.view.dismiss();
     };
     ModalPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-            selector: 'page-modal',template:/*ion-inline-start:"C:\Users\tauro\Desktop\APP_AGENDA_TOPMEDICOS\Agenda_TOP_MEDICOS\src\pages\modal\modal.html"*/'<!--\n  Generated template for the ModalPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<!--\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>Detalles</ion-title>\n    <ion-buttons end>\n      <button ion-button (click)="closeModal()">Close</button>\n    </ion-buttons>    \n  </ion-navbar>\n</ion-header>\n-->\n\n<ion-content class="main-view">\n\n  <div class="overlay" (click)="closeModal()"></div>\n  <div class="modal_content">\n    <h2>Detalles de cita</h2>\n    <h5>Inicio de videoasistencia: </h5>{{data.hora_inicio}}\n    <h5>Fin de Videoasistencia: </h5>{{data.hora_fin}}\n    <h5>Detalles: </h5>{{data.detalles_cita}}\n\n      <button ion-button outline item-end icon-right color="Primary" (click)="login()">Videoasistencia<br><!-- loguear -->\n        <ion-icon name="ios-videocam"></ion-icon>\n      </button>\n  </div>\n  \n\n\n\n</ion-content>\n'/*ion-inline-end:"C:\Users\tauro\Desktop\APP_AGENDA_TOPMEDICOS\Agenda_TOP_MEDICOS\src\pages\modal\modal.html"*/,
+            selector: 'page-modal',template:/*ion-inline-start:"C:\Users\tauro\Desktop\APP_AGENDA_TOPMEDICOS\Agenda_TOP_MEDICOS\src\pages\modal\modal.html"*/'<!--\n  Generated template for the ModalPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<!--\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>Detalles</ion-title>\n    <ion-buttons end>\n      <button ion-button (click)="closeModal()">Close</button>\n    </ion-buttons>    \n  </ion-navbar>\n</ion-header>\n-->\n\n<ion-content class="main-view">\n\n  <div class="overlay" (click)="closeModal()"></div>\n  <div class="modal_content">\n    <h2>Detalles de cita</h2>\n    <h5>Inicio de videoasistencia: </h5>{{data.hora_inicio}}\n    <h5>Fin de Videoasistencia: </h5>{{data.hora_fin}}\n    <h5>Detalles: </h5>{{data.detalles_cita}}\n\n      <button ion-button outline item-end icon-right color="Primary" [hidden]="data.tipo_servicio === \'Consulta Presencial\' ? true : false" (click)="iniciarVideoconferencia()">Videoasistencia<br>\n        <ion-icon name="ios-videocam"></ion-icon>\n      </button>\n  </div>\n  \n\n\n\n</ion-content>\n'/*ion-inline-end:"C:\Users\tauro\Desktop\APP_AGENDA_TOPMEDICOS\Agenda_TOP_MEDICOS\src\pages\modal\modal.html"*/,
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavParams */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* ViewController */]])
     ], ModalPage);

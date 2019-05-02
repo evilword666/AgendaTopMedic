@@ -262,6 +262,15 @@ var HomePage = /** @class */ (function () {
         this.contadorCitas = 0;
         this.bodyNotification = "Corriendo en segundo plano";
         this.isIosDevice = false;
+        /**************************************************************************************************************/
+        /**************************************************************************************************************/
+        /**************************************************************************************************************/
+        this.addZero = function (i) {
+            if (i < 10) {
+                i = "0" + i;
+            }
+            return i;
+        };
         this.calendar = {
             locale: 'es-MX',
             autoSelect: 'true',
@@ -303,9 +312,25 @@ var HomePage = /** @class */ (function () {
             console.log("ERROR Nuevo: " + error);
         });
     } //Fin del Constructor
-    /**************************************************************************************************************/
-    /**************************************************************************************************************/
-    /**************************************************************************************************************/
+    HomePage.prototype.obtenerFecha = function (formatoDate) {
+        var dd = formatoDate.getDate();
+        var mm = formatoDate.getMonth() + 1;
+        var yyyy = formatoDate.getFullYear();
+        if (dd < 10) {
+            dd = '0' + dd;
+        }
+        if (mm < 10) {
+            mm = '0' + mm;
+        }
+        var fecha = yyyy + '-' + mm + '-' + dd;
+        return fecha;
+    };
+    HomePage.prototype.obtenerHora = function (formatoDate) {
+        var h = this.addZero(formatoDate.getHours());
+        var m = this.addZero(formatoDate.getMinutes());
+        var s = this.addZero(formatoDate.getSeconds());
+        return h + ":" + m + ":" + s;
+    };
     HomePage.prototype.verDetallesEventoModal = function (evento) {
         var myModalOptions = {
             enableBackdropDismiss: true
@@ -551,9 +576,9 @@ var HomePage = /** @class */ (function () {
     /**************************************************************************************************************/
     /**************************************************************************************************************/
     /**************************************************************************************************************/
-    HomePage.prototype.almacenarHorariosEnLocalBD = function (fecha_consulta, hora, horb, descripcion, link_token, numCitas) {
+    HomePage.prototype.almacenarHorariosEnLocalBD = function (fecha_consulta, hora, horb, descripcion, link_token, tipo_servicio, numCitas) {
         var _this = this;
-        this.database.almacenarCitasEnBD(fecha_consulta, hora, horb, descripcion, link_token, numCitas).then(function (data) {
+        this.database.almacenarCitasEnBD(fecha_consulta, hora, horb, descripcion, link_token, tipo_servicio, numCitas).then(function (data) {
             //console.log(JSON.stringify("Numero de datos insertados: "+data))
             if (JSON.stringify(data) == numCitas + "") {
                 //alert("Se agregaron todas las citas de la BD remota a la DB local")
@@ -606,6 +631,47 @@ var HomePage = /** @class */ (function () {
         this.loading.dismiss();
     };
     /**************************************************************************************************************/
+    /*************************** Obtener detalles de la cita seleccionana en el calendario ************************/
+    /**************************************************************************************************************/
+    HomePage.prototype.getDetallesCitaSeleccionada = function (fechaCitaSeleccionada, horaInicioCitaSeleccionada, horaFinCitaSeleccionada) {
+        var _this = this;
+        //Usamos la funcion creada en el proveedor database.ts para obtener los datos de las citas
+        this.database.obtenerCamposCitaSeleccionada(fechaCitaSeleccionada, horaInicioCitaSeleccionada, horaFinCitaSeleccionada).then(function (data) {
+            //alert(typeof(data))
+            //let datos = JSON.stringify(data);
+            //alert("getDetallesCitaSeleccionada(): "+datos)
+            for (var i = 0; i < data.length; i++) {
+                var element = data[i];
+                var fecha_consulta_g = JSON.stringify(data[i]['fecha_consulta']);
+                var hora_g = JSON.stringify(data[i]['hora']);
+                var horb_g = JSON.stringify(data[i]['horb']);
+                var descripcion_g = JSON.stringify(data[i]['descripcion']);
+                var link_token_g = JSON.stringify(data[i]['link_token']);
+                var tipo_servicio_g = JSON.stringify(data[i]['tipo_servicio']);
+                //alert(fecha_consulta_g+" "+hora_g+" "+horb_g+" "+descripcion_g+" "+link_token_g)
+                var fecha_consulta_SC = fecha_consulta_g.replace(/"/g, '');
+                var hora_SC = hora_g.replace(/"/g, '');
+                var horb_SC = horb_g.replace(/"/g, '');
+                var descripcion_SC = descripcion_g.replace(/"/g, '');
+                var link_token_SC = link_token_g.replace(/"/g, '');
+                var tipo_servicio_SC = tipo_servicio_g.replace(/"/g, '');
+                var objectNotification = {
+                    "fecha_consulta": fecha_consulta_SC,
+                    "hora": hora_SC,
+                    "horb": horb_SC,
+                    "descripcion": descripcion_SC,
+                    "link_token": link_token_SC,
+                    "tipo_servicio": tipo_servicio_SC
+                };
+                //alert(typeof(objectNotification))
+                _this.verDetallesEventoModal(objectNotification);
+            }
+        }, function (error) {
+            console.log(error);
+            //alert("error: "+error)
+        });
+    };
+    /**************************************************************************************************************/
     /**************************************************************************************************************/
     /**************************************************************************************************************/
     HomePage.prototype.rellenarArregloConConsultaBDremota = function () {
@@ -622,10 +688,12 @@ var HomePage = /** @class */ (function () {
                 var link_token = JSON.stringify(element['token']);
                 var nombre = JSON.stringify(element['nombre_paciente']);
                 var aPaterno = JSON.stringify(element['paterno']);
+                var tipo_servicio = JSON.stringify(element['tipo_servicio']);
                 var fecha_consulta_SC = fecha_consulta.replace(/"/g, '');
                 var hora_SC = hora.replace(/"/g, '');
                 var horb_SC = horb.replace(/"/g, '');
                 var descripcion_SC = descripcion.replace(/"/g, '');
+                var tipo_servicio_SC = tipo_servicio.replace(/"/g, '');
                 var nombre_SC = nombre.replace(/"/g, '');
                 var aPaterno_SC = aPaterno.replace(/"/g, '');
                 var link_token_SC = link_token.replace(/"/g, '');
@@ -633,7 +701,7 @@ var HomePage = /** @class */ (function () {
                 //alert(" "+nombre_SC+" "+aPaterno_SC+" "+" "+aMaterno_SC);
                 //this.eventSource es el evento en el html que se ira refrescando 
                 //this.eventSource = this.addSchedules(fecha_consulta_SC, hora_SC, horb_SC, descripcion_SC);
-                this.almacenarHorariosEnLocalBD(fecha_consulta_SC, hora_SC, horb_SC, descripcionCompuesta, link_token_SC, nFilas);
+                this.almacenarHorariosEnLocalBD(fecha_consulta_SC, hora_SC, horb_SC, descripcionCompuesta, link_token_SC, tipo_servicio_SC, nFilas);
             }
             window.localStorage.setItem("numFilasDBremota", window.localStorage.getItem("numFilasDBActual"));
         }
@@ -670,7 +738,17 @@ var HomePage = /** @class */ (function () {
         //alert(event.title)
         //this.alertDetallesEvento( event.title )
         var miCita = { titulo: event.title, inicio: event.startTime, fin: event.endTime };
-        this.verDetallesEventoModal(miCita);
+        //Aqui separaremos los valores que necesitaremos para hacer la consulta en la BD local
+        var fechaCitaSeleccionada = this.obtenerFecha(event.startTime);
+        var horaInicioCitaSeleccionada = this.obtenerHora(event.startTime);
+        var horaFinCitaSeleccionada = this.obtenerHora(event.endTime);
+        //alert (fechaCitaSeleccionada+" "+horaInicioCitaSeleccionada+" "+horaFinCitaSeleccionada)
+        //Aqui ira la consulta a la BD local por fecha y hora 
+        var camposDBcitaSeleccionada = this.getDetallesCitaSeleccionada(fechaCitaSeleccionada, horaInicioCitaSeleccionada, horaFinCitaSeleccionada);
+        //alert("camposDBcitaSeleccionada: "+JSON.stringify(camposDBcitaSeleccionada))
+        ///Aqui enviaremos los parametros consultados al modal para poder visualizarlos
+        //      this.verDetallesEventoModal(miCita)
+        //        this.verDetallesEventoModal(camposDBcitaSeleccionada)
     };
     HomePage.prototype.changeMode = function (mode) {
         this.calendar.mode = mode;
@@ -792,7 +870,7 @@ var HomePage = /** @class */ (function () {
     };
     HomePage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-            selector: 'page-home',template:/*ion-inline-start:"C:\Users\tauro\Desktop\APP_AGENDA_TOPMEDICOS\Agenda_TOP_MEDICOS\src\pages\home\home.html"*/'<ion-header>\n  <ion-navbar color="primary">\n      <ion-title>{{viewTitle}}</ion-title>\n      <ion-buttons end>\n          <button ion-button [disabled]="isToday" (click)="today()">Today</button>\n          <button ion-button (click)="changeMode(\'month\')">M</button>\n          <button ion-button (click)="changeMode(\'week\')">W</button>\n          <button ion-button (click)="changeMode(\'day\')">D</button>\n          <!--<button ion-button (click)="loadEvents()">Load Events</button>-->\n      </ion-buttons>\n  </ion-navbar>\n</ion-header>\n\n<ion-content class="has-header">\n  <calendar [eventSource]="eventSource"\n            [calendarMode]="calendar.mode"\n            [currentDate]="calendar.currentDate"\n            \n            (onCurrentDateChanged)="onCurrentDateChanged($event)"\n            (onEventSelected)="onEventSelected($event)"\n            (onTitleChanged)="onViewTitleChanged($event)"\n            (onTimeSelected)="onTimeSelected($event)"\n            step="30">\n  </calendar>    \n\n  <!-- <button ion-button block (click)="createUser();"> Crear usuario</button>\n  <button ion-button block secondary round (click)="updateCalendar1();"> update Calendar OPC 1</button> \n  <button ion-button block round (click)="updateCalendar2();"> update Calendar OPC 2</button>\n  \n  <button ion-button block color="tem" round (click)="updateCalendar3();"> update Calendar OPC 3</button>\n\n  <button ion-button block (click)="consultarHorariosBDremota();"> Consultar horarios BD remota</button>\n\n  \n  <button ion-button block (click)="clearTable();"> Vaciar base de datos</button>\n  \n  <button ion-button block color="sec" (click)="getCitas();"> Obtener citas de la BD</button>\n  \n  <button ion-button (click)="playAudio()">Play audio</button>\n  \n  <button ion-button (click)="lanzarNotificacion()">Lanzar notificacion</button>\n  <button ion-button (click)="lanzarNotificacion2()">Lanzar notificacion 2</button>\n-->\n  \n<ion-fab right bottom #fab >\n    <button ion-fab (click)="actualizarAgenda()">\n        <ion-icon name="md-refresh" large></ion-icon>\n        <!-- <ion-img src="img/update2.png"></ion-img> -->\n     </button>\n  </ion-fab>\n\n  <!--\n  <ion-fab left bottom #fab >\n    <button ion-fab (click)="verDetallesModal()">\n        <ion-icon name="person" large></ion-icon>\n     </button>\n  </ion-fab>\n-->\n\n</ion-content>\n\n'/*ion-inline-end:"C:\Users\tauro\Desktop\APP_AGENDA_TOPMEDICOS\Agenda_TOP_MEDICOS\src\pages\home\home.html"*/
+            selector: 'page-home',template:/*ion-inline-start:"C:\Users\tauro\Desktop\APP_AGENDA_TOPMEDICOS\Agenda_TOP_MEDICOS\src\pages\home\home.html"*/'<ion-header>\n  <ion-navbar color="primary">\n      <ion-title>{{viewTitle}}</ion-title>\n      <ion-buttons end>\n          <button ion-button [disabled]="isToday" (click)="today()">Today</button>\n          <button ion-button (click)="changeMode(\'month\')">M</button>\n          <button ion-button (click)="changeMode(\'week\')">W</button>\n          <button ion-button (click)="changeMode(\'day\')">D</button>\n          <!--<button ion-button (click)="loadEvents()">Load Events</button>-->\n      </ion-buttons>\n  </ion-navbar>\n</ion-header>\n\n<ion-content class="has-header">\n  <calendar [eventSource]="eventSource"\n            [calendarMode]="calendar.mode"\n            [currentDate]="calendar.currentDate"\n            [locale]="calendar.locale"\n            \n            (onCurrentDateChanged)="onCurrentDateChanged($event)"\n            (onEventSelected)="onEventSelected($event)"\n            (onTitleChanged)="onViewTitleChanged($event)"\n            (onTimeSelected)="onTimeSelected($event)"\n            step="30">\n  </calendar>    \n\n  <!-- <button ion-button block (click)="createUser();"> Crear usuario</button>\n  <button ion-button block secondary round (click)="updateCalendar1();"> update Calendar OPC 1</button> \n  <button ion-button block round (click)="updateCalendar2();"> update Calendar OPC 2</button>\n  \n  <button ion-button block color="tem" round (click)="updateCalendar3();"> update Calendar OPC 3</button>\n\n  <button ion-button block (click)="consultarHorariosBDremota();"> Consultar horarios BD remota</button>\n\n  \n  <button ion-button block (click)="clearTable();"> Vaciar base de datos</button>\n  \n  <button ion-button block color="sec" (click)="getCitas();"> Obtener citas de la BD</button>\n  \n  <button ion-button (click)="playAudio()">Play audio</button>\n  \n  <button ion-button (click)="lanzarNotificacion()">Lanzar notificacion</button>\n  <button ion-button (click)="lanzarNotificacion2()">Lanzar notificacion 2</button>\n-->\n  \n<ion-fab right bottom #fab >\n    <button ion-fab (click)="actualizarAgenda()">\n        <ion-icon name="md-refresh" large></ion-icon>\n        <!-- <ion-img src="img/update2.png"></ion-img> -->\n     </button>\n  </ion-fab>\n\n  <!--\n  <ion-fab left bottom #fab >\n    <button ion-fab (click)="verDetallesEventoModal()">\n        <ion-icon name="person" large></ion-icon>\n     </button>\n  </ion-fab>\n-->\n\n</ion-content>\n\n'/*ion-inline-end:"C:\Users\tauro\Desktop\APP_AGENDA_TOPMEDICOS\Agenda_TOP_MEDICOS\src\pages\home\home.html"*/
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* ModalController */], __WEBPACK_IMPORTED_MODULE_8__ionic_native_unique_device_id__["a" /* UniqueDeviceID */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* LoadingController */], __WEBPACK_IMPORTED_MODULE_7__ionic_native_toast__["a" /* Toast */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* Platform */], __WEBPACK_IMPORTED_MODULE_6__ionic_native_local_notifications__["a" /* LocalNotifications */], __WEBPACK_IMPORTED_MODULE_5__ionic_native_native_audio__["a" /* NativeAudio */], __WEBPACK_IMPORTED_MODULE_4__ionic_native_background_mode__["a" /* BackgroundMode */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */], __WEBPACK_IMPORTED_MODULE_2__angular_http__["a" /* Http */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */], __WEBPACK_IMPORTED_MODULE_3__providers_database_database__["a" /* DatabaseProvider */]])
     ], HomePage);
@@ -836,9 +914,9 @@ var DatabaseProvider = /** @class */ (function () {
         console.log('Hello DatabaseProvider Provider');
         if (!this.isOpen) {
             this.storage = new __WEBPACK_IMPORTED_MODULE_1__ionic_native_sqlite__["a" /* SQLite */]();
-            this.storage.create({ name: "topmedico.db", location: "default" }).then(function (db) {
+            this.storage.create({ name: "topmedic.db", location: "default" }).then(function (db) {
                 _this.db = db;
-                db.executeSql("CREATE TABLE IF NOT EXISTS horarios (id INTEGER PRIMARY KEY AUTOINCREMENT, fecha_consulta text, hora text, horb text, descripcion text, link_token text)", []);
+                db.executeSql("CREATE TABLE IF NOT EXISTS horarios (id INTEGER PRIMARY KEY AUTOINCREMENT, fecha_consulta text, hora text, horb text, descripcion text, link_token text, tipo_servicio text)", []);
                 _this.isOpen = true;
             }).catch(function (error) {
                 console.log(error);
@@ -848,12 +926,12 @@ var DatabaseProvider = /** @class */ (function () {
     /***********************************************************************************************************/
     /***************************** Funciones para almacenar datos la primera vez *******************************/
     /***********************************************************************************************************/
-    DatabaseProvider.prototype.almacenarCitasEnBD = function (fecha_consulta, hora, horb, descripcion, link_token, numCitas) {
+    DatabaseProvider.prototype.almacenarCitasEnBD = function (fecha_consulta, hora, horb, descripcion, link_token, tipo_servicio, numCitas) {
         var _this = this;
-        console.log("Desde funcion de almacenamiento: \nFecha: " + fecha_consulta + " \nHora: " + hora + " " + " \nHora Fin: " + horb + " \nDescripcion: " + descripcion + " \nlink_token: " + link_token);
+        console.log("Desde funcion de almacenamiento: \nFecha: " + fecha_consulta + " \nHora: " + hora + " " + " \nHora Fin: " + horb + " \nDescripcion: " + descripcion + " \nlink_token: " + link_token + "\ntipo_servicio: " + tipo_servicio);
         return new Promise(function (resolve, reject) {
-            var sql = "INSERT INTO horarios (fecha_consulta, hora, horb, descripcion, link_token) VALUES (?, ?, ?, ?, ?)";
-            _this.db.executeSql(sql, [fecha_consulta, hora, horb, descripcion, link_token]).then(function (data) {
+            var sql = "INSERT INTO horarios (fecha_consulta, hora, horb, descripcion, link_token,tipo_servicio) VALUES (?, ?, ?, ?, ?,?)";
+            _this.db.executeSql(sql, [fecha_consulta, hora, horb, descripcion, link_token, tipo_servicio]).then(function (data) {
                 //Aqui iba el resolve  
                 //alert("Duda: "+data)
                 //console.log("Duda CONVERTIDA: "+JSON.stringify(data))
@@ -900,8 +978,39 @@ var DatabaseProvider = /** @class */ (function () {
         });
     };
     /***********************************************************************************************************/
-    /*************************************** Actualizar eventos del calendario *********************************/
+    /********************************** Obtener todos los campos de la cita seleccionada ***********************/
     /***********************************************************************************************************/
+    DatabaseProvider.prototype.obtenerCamposCitaSeleccionada = function (fechaCitaSeleccionada, horaInicioCitaSeleccionada, horaFinCitaSeleccionada) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            //fecha_consulta text, hora text, horb text, descripcion text, link_token text
+            var query = "SELECT * FROM horarios WHERE fecha_consulta = ? AND hora = ? AND horb = ? ";
+            //alert(query)
+            _this.db.executeSql(query, [fechaCitaSeleccionada, horaInicioCitaSeleccionada, horaFinCitaSeleccionada]).then(function (data) {
+                //this.db.executeSql("SELECT * FROM horarios", []).then((data) => {
+                //alert("Numero de filas de consulta: "+data.rows.length)
+                var arrayCamposCitaSeleccionada = [];
+                if (data.rows.length > 0) {
+                    for (var i = 0; i < data.rows.length; i++) {
+                        arrayCamposCitaSeleccionada.push({
+                            id: data.rows.item(i).id,
+                            fecha_consulta: data.rows.item(i).fecha_consulta,
+                            hora: data.rows.item(i).hora,
+                            horb: data.rows.item(i).horb,
+                            descripcion: data.rows.item(i).descripcion,
+                            link_token: data.rows.item(i).link_token,
+                            tipo_servicio: data.rows.item(i).tipo_servicio
+                        });
+                    }
+                }
+                //      alert(JSON.stringify(arrayUsers))
+                resolve(arrayCamposCitaSeleccionada);
+            }, function (error) {
+                //      alert(JSON.stringify(error))
+                reject(error);
+            });
+        });
+    };
     /***********************************************************************************************************/
     /***********************************************************************************************************/
     DatabaseProvider.prototype.limpiarTabla = function () {

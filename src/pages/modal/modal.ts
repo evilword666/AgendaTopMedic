@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, ɵConsole } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
-import { DatePipe } from '@angular/common'
+
 
 /**
  * Generated class for the ModalPage page.
@@ -19,11 +19,16 @@ export class ModalPage {
   hora_inicio:String;
   hora_fin:String;
   detalles_cita:any;
+  tipo_servicio:any;
+  link_token:any;
+  
 
-  constructor(public datepipe: DatePipe, public navCtrl: NavController, public navParams: NavParams, private view: ViewController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private view: ViewController) {
     this.data.hora_inicio = '';
     this.data.hora_fin = '';    
     this.data.detalles_cita = '';    
+    this.data.tipo_servicio = '';  
+    this.data.link_token = '';  
   }
 
   ionViewWillLoad(){
@@ -31,15 +36,23 @@ export class ModalPage {
   }
 
   ionViewDidLoad(){
-    const data = this.navParams.get('data');
-    //console.log(data)
-    //alert(JSON.stringify(data))
-    //let latest_date =this.datepipe.transform(date, 'yyyy-MM-dd');
+    const data = this.navParams.get('data');    
 
-    this.data.hora_inicio = data.inicio;
-    this.data.hora_fin  = data.fin;
-    this.data.detalles_cita = data.titulo;
+    //alert("En el modal: "+JSON.stringify(data))
+    //console.log("En el modal: "+JSON.stringify(data))
+
+    this.data.hora_inicio = data.hora;
+    this.data.hora_fin  = data.horb;
+    this.data.detalles_cita = data.descripcion;
+    this.data.tipo_servicio = data.tipo_servicio;
+    this.data.link_token = "https://topmeddr.com:3005/"+data.link_token+"/d";
+
   }
+
+  iniciarVideoconferencia(){    
+    var ref = window.open(this.data.link_token, '_blank', 'location=no');
+  }
+
 
   closeModal(){
     this.view.dismiss();
