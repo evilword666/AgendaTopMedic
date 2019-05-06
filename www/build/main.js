@@ -181,11 +181,11 @@ webpackEmptyAsyncContext.id = 114;
 
 var map = {
 	"../pages/login/login.module": [
-		291,
+		290,
 		1
 	],
 	"../pages/modal/modal.module": [
-		290,
+		291,
 		0
 	]
 };
@@ -1139,8 +1139,8 @@ var AppModule = /** @class */ (function () {
                     autoFocusAssist: false
                 }, {
                     links: [
-                        { loadChildren: '../pages/modal/modal.module#ModalPageModule', name: 'ModalPage', segment: 'modal', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/login/login.module#LoginPageModule', name: 'LoginPage', segment: 'login', priority: 'low', defaultHistory: [] }
+                        { loadChildren: '../pages/login/login.module#LoginPageModule', name: 'LoginPage', segment: 'login', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/modal/modal.module#ModalPageModule', name: 'ModalPage', segment: 'modal', priority: 'low', defaultHistory: [] }
                     ]
                 })
             ],

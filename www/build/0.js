@@ -1,6 +1,6 @@
 webpackJsonp([0],{
 
-/***/ 290:
+/***/ 291:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -94,7 +94,7 @@ var ModalPage = /** @class */ (function () {
     };
     ModalPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-            selector: 'page-modal',template:/*ion-inline-start:"C:\Users\tauro\Desktop\APP_AGENDA_TOPMEDICOS\Agenda_TOP_MEDICOS\src\pages\modal\modal.html"*/'<!--\n  Generated template for the ModalPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<!--\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>Detalles</ion-title>\n    <ion-buttons end>\n      <button ion-button (click)="closeModal()">Close</button>\n    </ion-buttons>    \n  </ion-navbar>\n</ion-header>\n-->\n\n<ion-content class="main-view">\n\n  <div class="overlay" (click)="closeModal()"></div>\n  <div class="modal_content">\n    <h2>Detalles de cita</h2>\n    <h5>Inicio de videoasistencia: </h5>{{data.hora_inicio}}\n    <h5>Fin de Videoasistencia: </h5>{{data.hora_fin}}\n    <h5>Detalles: </h5>{{data.detalles_cita}}\n\n      <button ion-button outline item-end icon-right color="Primary" [hidden]="data.tipo_servicio === \'Consulta Presencial\' ? true : false" (click)="iniciarVideoconferencia()">Videoasistencia<br>\n        <ion-icon name="ios-videocam"></ion-icon>\n      </button>\n  </div>\n  \n\n\n\n</ion-content>\n'/*ion-inline-end:"C:\Users\tauro\Desktop\APP_AGENDA_TOPMEDICOS\Agenda_TOP_MEDICOS\src\pages\modal\modal.html"*/,
+            selector: 'page-modal',template:/*ion-inline-start:"C:\Users\tauro\Desktop\APP_AGENDA_TOPMEDICOS\Agenda_TOP_MEDICOS\src\pages\modal\modal.html"*/'<!--\n  Generated template for the ModalPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<!--\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>Detalles</ion-title>\n    <ion-buttons end>\n      <button ion-button (click)="closeModal()">Close</button>\n    </ion-buttons>    \n  </ion-navbar>\n</ion-header>\n-->\n\n<ion-content class="main-view">\n\n  <div class="overlay" (click)="closeModal()"></div>\n  <div class="modal_content">\n    <h2>Detalles de cita</h2>\n    <h5>Inicio de videoasistencia: </h5>{{data.hora_inicio}}\n    <h5>Fin de Videoasistencia: </h5>{{data.hora_fin}}\n    <h5>Detalles: </h5>{{data.detalles_cita}}\n    <div>\n      <button ion-button outline item-end icon-right color="Primary" [hidden]="data.tipo_servicio === \'Consulta Presencial\' ? true : false" (click)="iniciarVideoconferencia()">Videoasistencia<br>\n        <ion-icon name="ios-videocam"></ion-icon>\n      </button>\n    </div>\n  </div>\n  \n\n\n\n</ion-content>\n'/*ion-inline-end:"C:\Users\tauro\Desktop\APP_AGENDA_TOPMEDICOS\Agenda_TOP_MEDICOS\src\pages\modal\modal.html"*/,
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavParams */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* ViewController */]])
     ], ModalPage);
